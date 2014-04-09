@@ -67,34 +67,67 @@ check_foreign_architectures () {
 	fi
 }
 
+dpkg_cross () {
+	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+		sudo dpkg-cross --arch armhf -M -b ${pre}_${post}_${build_arch}.deb
+	fi
+}
+
+dpkg_cross_force () {
+	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
+	fi
+}
+
 dpkg_cross_pkgs () {
 	mkdir -p "${DIR}/dl/cross"
 	cd "${DIR}/dl/cross"
 
-	wget -c http://ftp.us.debian.org/debian/pool/main/l/linux/linux-libc-dev_3.2.54-2_armhf.deb
-	if [ ! -f linux-libc-dev-armhf-cross_3.2.54-2_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b linux-libc-dev_3.2.54-2_armhf.deb
-	fi
+	rm -rvf *all.deb
 
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc-dev-bin_2.13-38+deb7u1_armhf.deb
-	if [ ! -f libc-dev-bin-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -A -M -b libc-dev-bin_2.13-38+deb7u1_armhf.deb
-	fi
+#libgmpxx4ldbl-armhf-cross_5.0.5+dfsg-2_all.deb
+#gcc-4.7-base-armhf-cross_4.7.2-5_all.deb
+#libgomp1-armhf-cross_4.7.2-5_all.deb
+#libc6-armhf-cross_2.13-38+deb7u1_all.deb
+#libmpfr4-armhf-cross_3.1.0-5_all.deb
+#libc6-dev-armhf-cross_2.13-38+deb7u1_all.deb
+#libmpfr-dev-armhf-cross_3.1.0-5_all.deb
+#libc-bin-armhf-cross_2.13-38+deb7u1_all.deb
+#libstdc++6-armhf-cross_4.7.2-5_all.deb
+#libc-dev-bin-armhf-cross_2.13-38+deb7u1_all.deb
+#linux-libc-dev-armhf-cross_3.2.54-2_all.deb
+#libgcc1-armhf-cross_4.7.2-5_all.deb
+#tzdata-armhf-cross_2013i-0wheezy1_all.deb
+#libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
+#zlib1g-armhf-cross_1.2.7.dfsg-13_all.deb
+#libgmp3-dev-armhf-cross_5.0.5+dfsg-2_all.deb
+#zlib1g-dev-armhf-cross_1.2.7.dfsg-13_all.deb
+#libgmp-dev-armhf-cross_5.0.5+dfsg-2_all.deb
 
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6-dev_2.13-38+deb7u1_armhf.deb
-	if [ ! -f libc6-dev-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b libc6-dev_2.13-38+deb7u1_armhf.deb
-	fi
+	pre="linux-libc-dev"
+	post="3.2.54-2"
+	wget -c http://ftp.us.debian.org/debian/pool/main/l/linux/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6_2.13-38+deb7u1_armhf.deb
-	if [ ! -f libc6-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b libc6_2.13-38+deb7u1_armhf.deb
-	fi
+	pre="libc-dev-bin"
+	post="2.13-38+deb7u1"
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	dpkg_cross_force
 
-	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/libgcc1_4.7.2-5_armhf.deb
-	if [ ! -f libgcc1-armhf-cross_4.7.2-5_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b libgcc1_4.7.2-5_armhf.deb
-	fi
+	pre="libc6-dev"
+	post="2.13-38+deb7u1"
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libc6"
+	post="2.13-38+deb7u1"
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libgcc1"
+	post="4.7.2-5"
+	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
 	sudo dpkg -i *all.deb
 	exit
