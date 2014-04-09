@@ -20,6 +20,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+DIR=$PWD
+
+if [ ! -d "${DIR}/dl/" ] ; then
+	mkdir -p "${DIR}/dl/" || true
+fi
+
+if [ ! -d "${DIR}/deploy/" ] ; then
+	mkdir -p "${DIR}/deploy/" || true
+fi
 
 check_dpkg () {
 	LC_ALL=C dpkg --list | awk '{print $2}' | grep "^${pkg}$" >/dev/null || deb_pkgs="${deb_pkgs}${pkg} "
@@ -41,11 +50,20 @@ check_dependencies () {
 check_foreign_architectures () {
 	foreign=$(dpkg --print-foreign-architectures || true)
 	if [ "x${foreign}" = "x" ] ; then
+		echo "DPKG: adding armhf"
 		sudo dpkg --add-architecture armhf
 		sudo apt-get update
 	fi
 }
 
+build_binutils () {
+	sudo apt-get build-dep --no-install-recommends binutils
+	cd "${DIR}/dl/"
+	sudo apt-get source binutils
+	cd "${DIR}/"
+}
+
 check_dependencies
 check_foreign_architectures
+build_binutils
 #
