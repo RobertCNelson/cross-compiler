@@ -83,7 +83,6 @@ dpkg_cross_pkgs () {
 #libgomp1-armhf-cross_4.7.2-5_all.deb
 #libmpfr4-armhf-cross_3.1.0-5_all.deb
 #libmpfr-dev-armhf-cross_3.1.0-5_all.deb
-#libstdc++6-armhf-cross_4.7.2-5_all.deb
 #tzdata-armhf-cross_2013i-0wheezy1_all.deb
 #libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
 #zlib1g-armhf-cross_1.2.7.dfsg-13_all.deb
@@ -117,6 +116,11 @@ dpkg_cross_pkgs () {
 	dpkg_cross
 
 	pre="libgcc1"
+	post="4.7.2-5"
+	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libstdc++6"
 	post="4.7.2-5"
 	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
