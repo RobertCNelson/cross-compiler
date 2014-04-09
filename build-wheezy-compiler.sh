@@ -69,12 +69,6 @@ check_foreign_architectures () {
 
 dpkg_cross () {
 	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b ${pre}_${post}_${build_arch}.deb
-	fi
-}
-
-dpkg_cross_force () {
-	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
 		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
 	fi
 }
@@ -89,7 +83,6 @@ dpkg_cross_pkgs () {
 #libgomp1-armhf-cross_4.7.2-5_all.deb
 #libmpfr4-armhf-cross_3.1.0-5_all.deb
 #libmpfr-dev-armhf-cross_3.1.0-5_all.deb
-#libc-bin-armhf-cross_2.13-38+deb7u1_all.deb
 #libstdc++6-armhf-cross_4.7.2-5_all.deb
 #tzdata-armhf-cross_2013i-0wheezy1_all.deb
 #libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
@@ -101,12 +94,17 @@ dpkg_cross_pkgs () {
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
 	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
-	dpkg_cross_force
+	dpkg_cross
+
+	pre="libc-bin"
+	post="2.13-38+deb7u1"
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
 	pre="libc-dev-bin"
 	post="2.13-38+deb7u1"
 	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
-	dpkg_cross_force
+	dpkg_cross
 
 	pre="libc6"
 	post="2.13-38+deb7u1"
