@@ -142,25 +142,55 @@ dpkg_cross_pkgs () {
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
-#zlib1g-armhf-cross_1.2.7.dfsg-13_all.deb
-#zlib1g-dev-armhf-cross_1.2.7.dfsg-13_all.deb
+	pre="zlib1g"
+	post="1.2.7.dfsg-13"
+	${wget_dl}/z/zlib/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
-#libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
-#libgmpxx4ldbl-armhf-cross_5.0.5+dfsg-2_all.deb
-#libgmp-dev-armhf-cross_5.0.5+dfsg-2_all.deb
-#libgmp3-dev-armhf-cross_5.0.5+dfsg-2_all.deb
+	pre="zlib1g-dev"
+	post="1.2.7.dfsg-13"
+	${wget_dl}/z/zlib/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
-#libmpfr4-armhf-cross_3.1.0-5_all.deb
-#libmpfr-dev-armhf-cross_3.1.0-5_all.deb
+	pre="libgmp10"
+	post="5.0.5+dfsg-2"
+	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libgmpxx4ldbl"
+	post="5.0.5+dfsg-2"
+	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libgmp-dev"
+	post="5.0.5+dfsg-2"
+	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libgmp3-dev"
+	post="5.0.5+dfsg-2"
+	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libmpfr4"
+	post="3.1.0-5"
+	${wget_dl}/m/mpfr4/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libmpfr-dev"
+	post="3.1.0-5"
+	${wget_dl}/m/mpfr4/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
 	pre="libstdc++6"
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
-#libgomp1-armhf-cross_4.7.2-5_all.deb
-
-	#
+	pre="libgomp1"
+	post="4.7.2-5"
+	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
 
 	exit
 }
