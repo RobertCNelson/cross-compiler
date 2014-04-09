@@ -82,36 +82,54 @@ dpkg_cross_options="-A -M -X gcc-4.3-base -X gcc-4.4-base -X debconf -X debconf-
 	fi
 }
 
+dpkg_cross_all () {
+dpkg_cross_options="-A -M -X gcc-4.3-base -X gcc-4.4-base -X debconf -X debconf-2.0 -X gcc-4.5-base -X gcc-4.6-base -X gcc-4.7-base -X multiarch-support"
+	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+		sudo dpkg-cross ${dpkg_cross_options} --arch armhf -b ${pre}_${post}_all.deb
+		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+			exit
+		else
+			sudo dpkg --force-depends -i ${pre}-${build_arch}-cross_${post}_all.deb
+		fi
+	fi
+}
+
 dpkg_cross_pkgs () {
 	mkdir -p "${DIR}/dl/cross"
 	cd "${DIR}/dl/cross"
 
 	rm -rvf *all.deb
 
-#libgmpxx4ldbl-armhf-cross_5.0.5+dfsg-2_all.deb
-#libgomp1-armhf-cross_4.7.2-5_all.deb
-#libmpfr4-armhf-cross_3.1.0-5_all.deb
-#libmpfr-dev-armhf-cross_3.1.0-5_all.deb
-#tzdata-armhf-cross_2013i-0wheezy1_all.deb
-#libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
-#zlib1g-armhf-cross_1.2.7.dfsg-13_all.deb
-#libgmp3-dev-armhf-cross_5.0.5+dfsg-2_all.deb
-#zlib1g-dev-armhf-cross_1.2.7.dfsg-13_all.deb
-#libgmp-dev-armhf-cross_5.0.5+dfsg-2_all.deb
+	#http://git.emdebian.org/?p=debian/buildcross;a=blob;f=functions;h=7d4c2b96e7760dd3a4e55f87df7f1a213407f747;hb=HEAD#l640
 
 	pre="linux-libc-dev"
 	post="3.2.54-2"
 	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
-	dpkg_cross	pre="linux-libc-dev"
-	post="3.2.54-2"
-	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
-	#
-
 
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libgcc1"
+	post="4.7.2-5"
+	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="tzdata"
+	post="2013i-0wheezy1"
+	${wget_dl}/t/tzdata/${pre}_${post}_all.deb
+	dpkg_cross_all
+
+	pre="libc6"
+	post="2.13-38+deb7u1"
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+
+	pre="libc6-dev"
+	post="2.13-38+deb7u1"
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-bin"
@@ -124,25 +142,25 @@ dpkg_cross_pkgs () {
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
-	pre="libc6"
-	post="2.13-38+deb7u1"
-	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
-	dpkg_cross
+#zlib1g-armhf-cross_1.2.7.dfsg-13_all.deb
+#zlib1g-dev-armhf-cross_1.2.7.dfsg-13_all.deb
 
-	pre="libc6-dev"
-	post="2.13-38+deb7u1"
-	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
-	dpkg_cross
+#libgmp10-armhf-cross_5.0.5+dfsg-2_all.deb
+#libgmpxx4ldbl-armhf-cross_5.0.5+dfsg-2_all.deb
+#libgmp-dev-armhf-cross_5.0.5+dfsg-2_all.deb
+#libgmp3-dev-armhf-cross_5.0.5+dfsg-2_all.deb
 
-	pre="libgcc1"
-	post="4.7.2-5"
-	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
-	dpkg_cross
+#libmpfr4-armhf-cross_3.1.0-5_all.deb
+#libmpfr-dev-armhf-cross_3.1.0-5_all.deb
 
 	pre="libstdc++6"
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
+
+#libgomp1-armhf-cross_4.7.2-5_all.deb
+
+	#
 
 	exit
 }
