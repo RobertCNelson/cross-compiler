@@ -98,10 +98,7 @@ dpkg_cross_pkgs () {
 	mkdir -p "${DIR}/dl/cross"
 	cd "${DIR}/dl/cross"
 
-	rm -rvf *all.deb
-
 	#http://git.emdebian.org/?p=debian/buildcross;a=blob;f=functions;h=7d4c2b96e7760dd3a4e55f87df7f1a213407f747;hb=HEAD#l640
-
 	pre="linux-libc-dev"
 	post="3.2.54-2"
 	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
@@ -192,7 +189,7 @@ dpkg_cross_pkgs () {
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
-	exit
+	cd "${DIR}/"
 }
 
 build_binutils () {
