@@ -67,6 +67,13 @@ check_foreign_architectures () {
 	fi
 }
 
+dpkg_cross_pkgs () {
+	cd "${DIR}/dl/"
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6-dev_2.13-38+deb7u1_armhf.deb
+	#dpkg-cross -i -a arm
+	exit
+}
+
 build_binutils () {
 	echo "binutils: checking build-dep"
 	sudo apt-get build-dep -y --no-install-recommends binutils
@@ -127,6 +134,7 @@ build_gcc () {
 
 check_dependencies
 check_foreign_architectures
+dpkg_cross_pkgs
 #build_binutils
 build_gcc
 #
