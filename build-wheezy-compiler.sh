@@ -29,6 +29,8 @@ wheezy_binutils_pkg="2.22-8"
 wheezy_gcc="4.6.3"
 wheezy_gcc_pkg="4.6.3-14"
 
+wget_dl="wget -c --non-verbose http://ftp.us.debian.org/debian/pool/main"
+
 if [ ! -d "${DIR}/dl/" ] ; then
 	mkdir -p "${DIR}/dl/" || true
 fi
@@ -69,7 +71,11 @@ check_foreign_architectures () {
 
 dpkg_cross () {
 	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
+#		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
+		sudo dpkg-cross --arch armhf -b ${pre}_${post}_${build_arch}.deb
+		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+			exit
+		fi
 	fi
 }
 
@@ -92,42 +98,42 @@ dpkg_cross_pkgs () {
 
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
-	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-bin"
 	post="2.13-38+deb7u1"
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-dev-bin"
 	post="2.13-38+deb7u1"
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6"
 	post="2.13-38+deb7u1"
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6-dev"
 	post="2.13-38+deb7u1"
-	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgcc1"
 	post="4.7.2-5"
-	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libstdc++6"
 	post="4.7.2-5"
-	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="linux-libc-dev"
 	post="3.2.54-2"
-	wget -c http://ftp.us.debian.org/debian/pool/main/l/linux/${pre}_${post}_${build_arch}.deb
+	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	ls -lh | grep all.deb
