@@ -69,8 +69,11 @@ check_foreign_architectures () {
 
 dpkg_cross_pkgs () {
 	cd "${DIR}/dl/"
+	wget -c http://ftp.us.debian.org/debian/pool/main/l/linux/linux-libc-dev_3.2.54-2_armhf.deb
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc-dev-bin_2.13-38+deb7u1_armhf.deb
 	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6-dev_2.13-38+deb7u1_armhf.deb
 	#dpkg-cross -i -a arm
+	sudo dpkg-cross --arch armhf -M -i libc-dev-bin_2.13-38+deb7u1_armhf.deb
 	exit
 }
 
