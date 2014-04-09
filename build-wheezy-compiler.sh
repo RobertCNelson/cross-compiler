@@ -91,6 +91,11 @@ dpkg_cross_pkgs () {
 		sudo dpkg-cross --arch armhf -M -b libc6_2.13-38+deb7u1_armhf.deb
 	fi
 
+	wget -c http://ftp.us.debian.org/debian/pool/main/g/gcc-4.7/libgcc1_4.7.2-5_armhf.deb
+	if [ ! -f libgcc1-armhf-cross_4.7.2-5_all.deb ] ; then
+		sudo dpkg-cross --arch armhf -M -b libgcc1_4.7.2-5_armhf.deb
+	fi
+
 	sudo dpkg -i *all.deb
 	exit
 }
