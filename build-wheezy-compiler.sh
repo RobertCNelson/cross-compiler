@@ -238,7 +238,7 @@ build_gcc () {
 	#dpkg-checkbuilddeps
 	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
-	if [ ! -f "${DIR}/dl/gcc-4.6-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
+	if [ ! -f "${DIR}/dl/gcc-4.6-arm-linux-gnueabihf_${wheezy_gcc_pkg}_${host_arch}.deb" ] ; then
 		exit
 	else
 		cp -v "${DIR}/dl/*.deb" "${DIR}/deploy/"
