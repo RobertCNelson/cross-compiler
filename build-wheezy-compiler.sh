@@ -59,6 +59,9 @@ check_dependencies () {
 		sudo apt-get -y install ${deb_pkgs}
 		sudo apt-get clean
 	fi
+
+	echo "build-dep: installing for binutils/gcc-4.6"
+	sudo apt-get build-dep -y --no-install-recommends binutils gcc-4.6
 }
 
 check_foreign_architectures () {
@@ -193,8 +196,6 @@ dpkg_cross_pkgs () {
 }
 
 build_binutils () {
-	echo "binutils: checking build-dep"
-	sudo apt-get build-dep -y --no-install-recommends binutils
 	cd "${DIR}/dl/"
 
 	if [ -d "${DIR}/dl/binutils-${wheezy_binutils}/" ] ; then
@@ -222,8 +223,6 @@ build_binutils () {
 }
 
 build_gcc () {
-	echo "gcc: checking build-dep"
-	sudo apt-get build-dep -y --no-install-recommends gcc-4.6
 	cd "${DIR}/dl/"
 
 	if [ -d "${DIR}/dl/gcc-4.6-${wheezy_gcc}/" ] ; then
