@@ -75,7 +75,11 @@ dpkg_cross () {
 #		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
 		sudo dpkg-cross --arch armhf -b ${pre}_${post}_${build_arch}.deb
 		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-			exit
+			echo "Skipping Multi-Arch package"
+			sudo dpkg-cross --arch armhf -b -M ${pre}_${post}_${build_arch}.deb
+			if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+				exit
+			fi
 		fi
 	fi
 }
