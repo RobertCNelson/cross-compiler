@@ -71,7 +71,7 @@ check_foreign_architectures () {
 }
 
 dpkg_cross () {
-dpkg_cross_options="-A -M -X gcc-4.3-base X gcc-4.4-base -X debconf -X debconf-2.0 -X gcc-4.5-base -X gcc-4.6-base -X gcc-4.7-base -X multiarch-support"
+dpkg_cross_options="-A -M -X gcc-4.3-base -X gcc-4.4-base -X debconf -X debconf-2.0 -X gcc-4.5-base -X gcc-4.6-base -X gcc-4.7-base -X multiarch-support"
 	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
 		sudo dpkg-cross ${dpkg_cross_options} --arch armhf -b ${pre}_${post}_${build_arch}.deb
 		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
