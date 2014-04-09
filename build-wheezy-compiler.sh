@@ -71,28 +71,13 @@ check_foreign_architectures () {
 }
 
 dpkg_cross () {
+dpkg_cross_options="-A -M -X gcc-4.3-base X gcc-4.4-base -X debconf -X debconf-2.0 -X gcc-4.5-base -X gcc-4.6-base -X gcc-4.7-base -X multiarch-support"
 	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-#		sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
-		sudo dpkg-cross --arch armhf -b ${pre}_${post}_${build_arch}.deb
+		sudo dpkg-cross ${dpkg_cross_options} --arch armhf -b ${pre}_${post}_${build_arch}.deb
 		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-			echo "Skipping Multi-Arch package"
-			sudo dpkg-cross --arch armhf -b -M ${pre}_${post}_${build_arch}.deb
-			if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-				exit
-			fi
-		fi
-	fi
-}
-
-dpkg_cross_multi () {
-	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-		sudo dpkg-cross --arch armhf -M -b ${pre}_${post}_${build_arch}.deb
-		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-			echo "doesn't provide any useful files. Skipping.Skipping Multi-Arch package"
-			sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
-			if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
-				exit
-			fi
+			exit
+		else
+			sudo dpkg --force-depends -i ${pre}-${build_arch}-cross_${post}_all.deb
 		fi
 	fi
 }
@@ -114,10 +99,20 @@ dpkg_cross_pkgs () {
 #zlib1g-dev-armhf-cross_1.2.7.dfsg-13_all.deb
 #libgmp-dev-armhf-cross_5.0.5+dfsg-2_all.deb
 
+	pre="linux-libc-dev"
+	post="3.2.54-2"
+	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
+	dpkg_cross	pre="linux-libc-dev"
+	post="3.2.54-2"
+	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
+	dpkg_cross
+	#
+
+
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
-	dpkg_cross_multi
+	dpkg_cross
 
 	pre="libc-bin"
 	post="2.13-38+deb7u1"
@@ -149,13 +144,6 @@ dpkg_cross_pkgs () {
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
-	pre="linux-libc-dev"
-	post="3.2.54-2"
-	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
-	dpkg_cross
-
-	ls -lh | grep all.deb
-	sudo dpkg -i *all.deb
 	exit
 }
 
