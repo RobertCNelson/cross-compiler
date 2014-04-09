@@ -23,7 +23,9 @@
 DIR=$PWD
 
 build_arch="armhf"
+host_arch=$(dpkg --print-architecture)
 binutils_wheezy="2.22"
+binutils_wheezy_pkg="2.22-8"
 
 if [ ! -d "${DIR}/dl/" ] ; then
 	mkdir -p "${DIR}/dl/" || true
@@ -40,6 +42,8 @@ check_dpkg () {
 check_dependencies () {
 	unset deb_pkgs
 	pkg="build-essential"
+	check_dpkg
+	pkg="binutils-multiarch"
 	check_dpkg
 
 	if [ "${deb_pkgs}" ] ; then
@@ -66,6 +70,7 @@ build_binutils () {
 
 	if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
 		sudo rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
+		sudo rm -rf "${DIR}/dl/binutils_${binutils_wheezy}*" || true
 	fi
 
 	echo "binutils: downloading source"
@@ -77,10 +82,48 @@ build_binutils () {
 	#dpkg-checkbuilddeps
 	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
+	if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" ] ; then
+		exit
+	else
+		cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" "${DIR}/deploy/"
+		sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb"
+	fi
+
 	cd "${DIR}/"
 }
+
+build_gcc () {
+	echo "gcc: checking build-dep"
+	sudo apt-get build-dep -y --no-install-recommends gcc-4.6
+	cd "${DIR}/dl/"
+
+	#if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
+	#	sudo rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
+	#	sudo rm -rf "${DIR}/dl/binutils_${binutils_wheezy}*" || true
+	#fi
+
+	echo "binutils: downloading source"
+	apt-get source gcc-4.6
+
+	#cd "${DIR}/dl/binutils-${binutils_wheezy}/"
+
+	#DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp || true
+	#dpkg-checkbuilddeps
+	#WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
+
+	#if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" ] ; then
+	#	exit
+	#else
+	#	cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" "${DIR}/deploy/"
+	#	sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb"
+	#fi
+
+	cd "${DIR}/"
+}
+
 
 check_dependencies
 check_foreign_architectures
 build_binutils
+build_gcc
 #
