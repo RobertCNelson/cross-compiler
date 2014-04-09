@@ -22,6 +22,9 @@
 
 DIR=$PWD
 
+build_arch="armhf"
+binutils_wheezy="2.22"
+
 if [ ! -d "${DIR}/dl/" ] ; then
 	mkdir -p "${DIR}/dl/" || true
 fi
@@ -50,18 +53,29 @@ check_dependencies () {
 check_foreign_architectures () {
 	foreign=$(dpkg --print-foreign-architectures || true)
 	if [ "x${foreign}" = "x" ] ; then
-		echo "DPKG: adding armhf"
-		sudo dpkg --add-architecture armhf
+		echo "DPKG: adding ${build_arch}"
+		sudo dpkg --add-architecture ${build_arch}
 		sudo apt-get update
 	fi
 }
 
 build_binutils () {
-	echo "binutils: checking for build-dep"
+	echo "binutils: checking build-dep"
 	sudo apt-get build-dep -y --no-install-recommends binutils
 	cd "${DIR}/dl/"
+
+	if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
+		rm -rf "${DIR}/dl/binutils-${binutils_wheezy}*" || true
+	fi
+
 	echo "binutils: downloading source"
 	sudo apt-get source binutils
+
+	cd "${DIR}/dl/binutils-${binutils_wheezy}/"
+
+	DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp
+	dpkg-checkbuilddeps
+
 	cd "${DIR}/"
 }
 
