@@ -239,12 +239,12 @@ build_gcc () {
 	#dpkg-checkbuilddeps
 	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
-	#if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
-	#	exit
-	#else
-	#	cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" "${DIR}/deploy/"
-	#	sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb"
-	#fi
+	if [ ! -f "${DIR}/dl/gcc-4.6-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
+		exit
+	else
+		cp -v "${DIR}/dl/*.deb" "${DIR}/deploy/"
+		sudo dpkg -i "${DIR}/deploy/*.deb"
+	fi
 
 	cd "${DIR}/"
 }
@@ -253,6 +253,6 @@ build_gcc () {
 check_dependencies
 check_foreign_architectures
 dpkg_cross_pkgs
-#build_binutils
+build_binutils
 build_gcc
 #
