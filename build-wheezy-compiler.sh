@@ -24,8 +24,10 @@ DIR=$PWD
 
 build_arch="armhf"
 host_arch=$(dpkg --print-architecture)
-binutils_wheezy="2.22"
-binutils_wheezy_pkg="2.22-8"
+wheezy_binutils="2.22"
+wheezy_binutils_pkg="2.22-8"
+wheezy_gcc="4.6.3"
+wheezy_gcc_pkg="4.6.3-14"
 
 if [ ! -d "${DIR}/dl/" ] ; then
 	mkdir -p "${DIR}/dl/" || true
@@ -68,25 +70,25 @@ build_binutils () {
 	sudo apt-get build-dep -y --no-install-recommends binutils
 	cd "${DIR}/dl/"
 
-	if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
-		sudo rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
-		sudo rm -rf "${DIR}/dl/binutils_${binutils_wheezy}*" || true
+	if [ -d "${DIR}/dl/binutils-${wheezy_binutils}/" ] ; then
+		sudo rm -rf binutils* || true
 	fi
 
 	echo "binutils: downloading source"
 	apt-get source binutils
 
-	cd "${DIR}/dl/binutils-${binutils_wheezy}/"
+	cd "${DIR}/dl/binutils-${wheezy_binutils}/"
 
 	DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp || true
 	#dpkg-checkbuilddeps
 	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
-	if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" ] ; then
+	if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
+		echo "binutils: build failure"
 		exit
 	else
-		cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" "${DIR}/deploy/"
-		sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb"
+		cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" "${DIR}/deploy/"
+		sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb"
 	fi
 
 	cd "${DIR}/"
@@ -97,25 +99,24 @@ build_gcc () {
 	sudo apt-get build-dep -y --no-install-recommends gcc-4.6
 	cd "${DIR}/dl/"
 
-	#if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
-	#	sudo rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
-	#	sudo rm -rf "${DIR}/dl/binutils_${binutils_wheezy}*" || true
-	#fi
+	if [ -d "${DIR}/dl/gcc-4.6-${wheezy_gcc}/" ] ; then
+		sudo rm -rf gcc-4.6* || true
+	fi
 
 	echo "binutils: downloading source"
 	apt-get source gcc-4.6
 
-	#cd "${DIR}/dl/binutils-${binutils_wheezy}/"
+	cd "${DIR}/dl/gcc-4.6-${wheezy_gcc}/"
 
-	#DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp || true
-	#dpkg-checkbuilddeps
+	DEB_TARGET_ARCH=${build_arch} DEB_CROSS_NO_BIARCH=yes with_deps_on_target_arch_pkgs=yes dpkg-buildpackage -d -T control
+	dpkg-checkbuilddeps
 	#WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
-	#if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" ] ; then
+	#if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
 	#	exit
 	#else
-	#	cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb" "${DIR}/deploy/"
-	#	sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${binutils_wheezy_pkg}_${host_arch}.deb"
+	#	cp -v "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" "${DIR}/deploy/"
+	#	sudo dpkg -i "${DIR}/deploy/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb"
 	#fi
 
 	cd "${DIR}/"
@@ -124,6 +125,6 @@ build_gcc () {
 
 check_dependencies
 check_foreign_architectures
-build_binutils
+#build_binutils
 build_gcc
 #
