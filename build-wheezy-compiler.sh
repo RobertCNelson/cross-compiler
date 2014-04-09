@@ -241,8 +241,10 @@ build_gcc () {
 	if [ ! -f "${DIR}/dl/gcc-4.6-arm-linux-gnueabihf_${wheezy_gcc_pkg}_${host_arch}.deb" ] ; then
 		exit
 	else
-		cp -v "${DIR}/dl/*.deb" "${DIR}/deploy/"
-		sudo dpkg -i "${DIR}/deploy/*.deb"
+		cd "${DIR}/dl/"
+		cp -v *.deb "${DIR}/deploy/"
+		cd "${DIR}/deploy/"
+		sudo dpkg -i *.deb
 	fi
 
 	cd "${DIR}/"
