@@ -236,8 +236,8 @@ build_gcc () {
 	cd "${DIR}/dl/gcc-4.6-${wheezy_gcc}/"
 
 	DEB_TARGET_ARCH=${build_arch} DEB_CROSS_NO_BIARCH=yes with_deps_on_target_arch_pkgs=yes dpkg-buildpackage -d -T control
-	dpkg-checkbuilddeps
-	#WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
+	#dpkg-checkbuilddeps
+	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
 	#if [ ! -f "${DIR}/dl/binutils-arm-linux-gnueabihf_${wheezy_binutils_pkg}_${host_arch}.deb" ] ; then
 	#	exit
