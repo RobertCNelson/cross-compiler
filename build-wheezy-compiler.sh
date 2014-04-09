@@ -65,11 +65,11 @@ build_binutils () {
 	cd "${DIR}/dl/"
 
 	if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
-		rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
+		sudo rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
 	fi
 
 	echo "binutils: downloading source"
-	sudo apt-get source binutils
+	apt-get source binutils
 
 	cd "${DIR}/dl/binutils-${binutils_wheezy}/"
 
