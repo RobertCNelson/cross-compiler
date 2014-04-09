@@ -38,4 +38,14 @@ check_dependencies () {
 	fi
 }
 
+check_foreign_architectures () {
+	foreign=$(dpkg --print-foreign-architectures || true)
+	if [ "x${foreign}" = "x" ] ; then
+		sudo dpkg --add-architecture armhf
+		sudo apt-get update
+	fi
+}
+
 check_dependencies
+check_foreign_architectures
+#
