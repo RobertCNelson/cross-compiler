@@ -65,7 +65,7 @@ build_binutils () {
 	cd "${DIR}/dl/"
 
 	if [ -d "${DIR}/dl/binutils-${binutils_wheezy}/" ] ; then
-		rm -rf "${DIR}/dl/binutils-${binutils_wheezy}*" || true
+		rm -rf "${DIR}/dl/binutils-${binutils_wheezy}" || true
 	fi
 
 	echo "binutils: downloading source"
