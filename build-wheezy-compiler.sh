@@ -71,22 +71,27 @@ dpkg_cross_pkgs () {
 	mkdir -p "${DIR}/dl/cross"
 	cd "${DIR}/dl/cross"
 
-	
-	#dpkg-cross -i -a arm
-
 	wget -c http://ftp.us.debian.org/debian/pool/main/l/linux/linux-libc-dev_3.2.54-2_armhf.deb
 	if [ ! -f linux-libc-dev-armhf-cross_3.2.54-2_all.deb ] ; then
 		sudo dpkg-cross --arch armhf -M -b linux-libc-dev_3.2.54-2_armhf.deb
 	fi
+
 	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc-dev-bin_2.13-38+deb7u1_armhf.deb
 	if [ ! -f libc-dev-bin-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
 		sudo dpkg-cross --arch armhf -A -M -b libc-dev-bin_2.13-38+deb7u1_armhf.deb
 	fi
+
 	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6-dev_2.13-38+deb7u1_armhf.deb
 	if [ ! -f libc6-dev-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
 		sudo dpkg-cross --arch armhf -M -b libc6-dev_2.13-38+deb7u1_armhf.deb
 	fi
-	sudo dpkg -i *all
+
+	wget -c http://ftp.us.debian.org/debian/pool/main/e/eglibc/libc6_2.13-38+deb7u1_armhf.deb
+	if [ ! -f libc6-armhf-cross_2.13-38+deb7u1_all.deb ] ; then
+		sudo dpkg-cross --arch armhf -M -b libc6_2.13-38+deb7u1_armhf.deb
+	fi
+
+	sudo dpkg -i *all.deb
 	exit
 }
 
