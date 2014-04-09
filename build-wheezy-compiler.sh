@@ -84,6 +84,19 @@ dpkg_cross () {
 	fi
 }
 
+dpkg_cross_multi () {
+	if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+		sudo dpkg-cross --arch armhf -M -b ${pre}_${post}_${build_arch}.deb
+		if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+			echo "doesn't provide any useful files. Skipping.Skipping Multi-Arch package"
+			sudo dpkg-cross --arch armhf -A -M -b ${pre}_${post}_${build_arch}.deb
+			if [ ! -f ${pre}-${build_arch}-cross_${post}_all.deb ] ; then
+				exit
+			fi
+		fi
+	fi
+}
+
 dpkg_cross_pkgs () {
 	mkdir -p "${DIR}/dl/cross"
 	cd "${DIR}/dl/cross"
@@ -104,7 +117,7 @@ dpkg_cross_pkgs () {
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
-	dpkg_cross
+	dpkg_cross_multi
 
 	pre="libc-bin"
 	post="2.13-38+deb7u1"
