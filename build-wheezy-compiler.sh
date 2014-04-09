@@ -47,6 +47,8 @@ check_dependencies () {
 	check_dpkg
 	pkg="binutils-multiarch"
 	check_dpkg
+	pkg="dpkg-cross"
+	check_dpkg
 
 	if [ "${deb_pkgs}" ] ; then
 		echo "Installing: ${deb_pkgs}"
