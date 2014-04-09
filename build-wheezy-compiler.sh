@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 #
 # Copyright (c) 2014 Robert Nelson <robertcnelson@gmail.com>
 #
@@ -29,7 +29,7 @@ wheezy_binutils_pkg="2.22-8"
 wheezy_gcc="4.6.3"
 wheezy_gcc_pkg="4.6.3-14"
 
-wget_dl="wget -c --non-verbose"
+wget_options="-c --non-verbose"
 mirror="http://ftp.us.debian.org/debian/pool/main"
 
 if [ ! -d "${DIR}/dl/" ] ; then
@@ -99,42 +99,42 @@ dpkg_cross_pkgs () {
 
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
-	${wget_dl} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-bin"
 	post="2.13-38+deb7u1"
-	${wget_dl} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-dev-bin"
 	post="2.13-38+deb7u1"
-	${wget_dl} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6"
 	post="2.13-38+deb7u1"
-	${wget_dl} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6-dev"
 	post="2.13-38+deb7u1"
-	${wget_dl} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgcc1"
 	post="4.7.2-5"
-	${wget_dl} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libstdc++6"
 	post="4.7.2-5"
-	${wget_dl} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="linux-libc-dev"
 	post="3.2.54-2"
-	${wget_dl} ${mirror}/l/linux/${pre}_${post}_${build_arch}.deb
+	wget ${wget_options} ${mirror}/l/linux/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	ls -lh | grep all.deb
