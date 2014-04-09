@@ -73,7 +73,7 @@ build_binutils () {
 
 	cd "${DIR}/dl/binutils-${binutils_wheezy}/"
 
-	DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp
+	DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -d -T control-stamp || true
 	#dpkg-checkbuilddeps
 	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
 
