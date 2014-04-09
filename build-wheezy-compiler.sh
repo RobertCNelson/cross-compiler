@@ -57,8 +57,10 @@ check_foreign_architectures () {
 }
 
 build_binutils () {
-	sudo apt-get build-dep --no-install-recommends binutils
+	echo "binutils: checking for build-dep"
+	sudo apt-get build-dep -y --no-install-recommends binutils
 	cd "${DIR}/dl/"
+	echo "binutils: downloading source"
 	sudo apt-get source binutils
 	cd "${DIR}/"
 }
