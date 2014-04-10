@@ -236,15 +236,13 @@ build_gcc () {
 
 	DEB_TARGET_ARCH=${build_arch} DEB_CROSS_NO_BIARCH=yes with_deps_on_target_arch_pkgs=yes dpkg-buildpackage -d -T control
 	#dpkg-checkbuilddeps
-	WITH_SYSROOT=/ DEB_TARGET_ARCH=${build_arch} TARGET=${build_arch} dpkg-buildpackage -b
+	DEB_TARGET_ARCH=${build_arch} DEB_CROSS_NO_BIARCH=yes with_deps_on_target_arch_pkgs=yes dpkg-buildpackage -b
 
 	if [ ! -f "${DIR}/dl/gcc-4.6-arm-linux-gnueabihf_${wheezy_gcc_pkg}_${host_arch}.deb" ] ; then
 		exit
 	else
 		cd "${DIR}/dl/"
 		cp -v *.deb "${DIR}/deploy/"
-		cd "${DIR}/deploy/"
-		sudo dpkg -i *.deb
 	fi
 
 	cd "${DIR}/"
