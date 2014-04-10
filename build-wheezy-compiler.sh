@@ -81,6 +81,7 @@ dpkg_cross_options="-A -M -X gcc-4.3-base -X gcc-4.4-base -X debconf -X debconf-
 			exit
 		else
 			sudo dpkg --force-depends -i ${pre}-${build_arch}-cross_${post}_all.deb
+			cp -v ${pre}-${build_arch}-cross_${post}_all.deb ./output
 		fi
 	fi
 }
@@ -93,12 +94,13 @@ dpkg_cross_options="-A -M -X gcc-4.3-base -X gcc-4.4-base -X debconf -X debconf-
 			exit
 		else
 			sudo dpkg --force-depends -i ${pre}-${build_arch}-cross_${post}_all.deb
+			cp -v ${pre}-${build_arch}-cross_${post}_all.deb ./output
 		fi
 	fi
 }
 
 dpkg_cross_pkgs () {
-	mkdir -p "${DIR}/dl/cross"
+	mkdir -p "${DIR}/dl/cross/output"
 	cd "${DIR}/dl/cross"
 
 	#http://git.emdebian.org/?p=debian/buildcross;a=blob;f=functions;h=7d4c2b96e7760dd3a4e55f87df7f1a213407f747;hb=HEAD#l640
@@ -191,6 +193,9 @@ dpkg_cross_pkgs () {
 	post="4.7.2-5"
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
+
+	cd "${DIR}/dl/cross/output/"
+	sudo dpkg --force-depends -i *.deb
 
 	cd "${DIR}/"
 }
