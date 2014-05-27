@@ -26,8 +26,11 @@ build_arch="armhf"
 host_arch=$(dpkg --print-architecture)
 wheezy_binutils="2.22"
 wheezy_binutils_pkg="2.22-8"
+#http://packages.qa.debian.org/b/binutils.html
+
 wheezy_gcc="4.6.3"
 wheezy_gcc_pkg="4.6.3-14"
+#http://packages.qa.debian.org/g/gcc-4.6.html
 
 mirror="http://ftp.us.debian.org/debian/pool/main"
 wget_dl="wget -c --no-verbose ${mirror}"
@@ -105,92 +108,110 @@ dpkg_cross_pkgs () {
 
 	#http://git.emdebian.org/?p=debian/buildcross;a=blob;f=functions;h=7d4c2b96e7760dd3a4e55f87df7f1a213407f747;hb=HEAD#l640
 	pre="linux-libc-dev"
-	post="3.2.54-2"
+	post="3.2.57-3"
+	#http://packages.qa.debian.org/l/linux.html
 	${wget_dl}/l/linux/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="gcc-4.7-base"
 	post="4.7.2-5"
+	#http://packages.qa.debian.org/g/gcc-4.7.html
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgcc1"
 	post="4.7.2-5"
+	#http://packages.qa.debian.org/g/gcc-4.7.html
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="tzdata"
-	post="2013i-0wheezy1"
+	post="2014a-0wheezy1"
+	#http://packages.qa.debian.org/t/tzdata.html
 	${wget_dl}/t/tzdata/${pre}_${post}_all.deb
 	dpkg_cross_all
 
 	pre="libc6"
 	post="2.13-38+deb7u1"
+	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6-dev"
 	post="2.13-38+deb7u1"
+	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-bin"
 	post="2.13-38+deb7u1"
+	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-dev-bin"
 	post="2.13-38+deb7u1"
+	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="zlib1g"
 	post="1.2.7.dfsg-13"
+	#http://packages.qa.debian.org/z/zlib.html
 	${wget_dl}/z/zlib/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="zlib1g-dev"
 	post="1.2.7.dfsg-13"
+	#http://packages.qa.debian.org/z/zlib.html
 	${wget_dl}/z/zlib/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgmp10"
 	post="5.0.5+dfsg-2"
+	#http://packages.qa.debian.org/g/gmp.html
 	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgmpxx4ldbl"
 	post="5.0.5+dfsg-2"
+	#http://packages.qa.debian.org/g/gmp.html
 	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgmp-dev"
 	post="5.0.5+dfsg-2"
+	#http://packages.qa.debian.org/g/gmp.html
 	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgmp3-dev"
 	post="5.0.5+dfsg-2"
+	#http://packages.qa.debian.org/g/gmp.html
 	${wget_dl}/g/gmp/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libmpfr4"
 	post="3.1.0-5"
+	#http://packages.qa.debian.org/m/mpfr4.html
 	${wget_dl}/m/mpfr4/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libmpfr-dev"
 	post="3.1.0-5"
+	#http://packages.qa.debian.org/m/mpfr4.html
 	${wget_dl}/m/mpfr4/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libstdc++6"
 	post="4.7.2-5"
+	#http://packages.qa.debian.org/g/gcc-4.7.html
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libgomp1"
 	post="4.7.2-5"
+	#http://packages.qa.debian.org/g/gcc-4.7.html
 	${wget_dl}/g/gcc-4.7/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
