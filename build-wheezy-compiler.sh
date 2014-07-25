@@ -126,31 +126,31 @@ dpkg_cross_pkgs () {
 	dpkg_cross
 
 	pre="tzdata"
-	post="2014a-0wheezy1"
+	post="2014e-0wheezy1"
 	#http://packages.qa.debian.org/t/tzdata.html
 	${wget_dl}/t/tzdata/${pre}_${post}_all.deb
 	dpkg_cross_all
 
 	pre="libc6"
-	post="2.13-38+deb7u1"
+	post="2.13-38+deb7u2"
 	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc6-dev"
-	post="2.13-38+deb7u1"
+	post="2.13-38+deb7u2"
 	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-bin"
-	post="2.13-38+deb7u1"
+	post="2.13-38+deb7u2"
 	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
 
 	pre="libc-dev-bin"
-	post="2.13-38+deb7u1"
+	post="2.13-38+deb7u2"
 	#http://packages.qa.debian.org/e/eglibc.html
 	${wget_dl}/e/eglibc/${pre}_${post}_${build_arch}.deb
 	dpkg_cross
